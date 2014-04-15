@@ -13,6 +13,13 @@
         "watchface": true
     },
     "resources": {
-        "media": []
+        "media": [
+            {
+                "menuIcon": true,
+                "type": "png",
+                "name": "BERLIN_CLOCK_ICON",
+                "file": "images/BerlinClockIcon.png"
+            }
+        ]
     }
 }
