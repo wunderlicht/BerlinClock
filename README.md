@@ -12,6 +12,6 @@ It is quite easy once you've been told.
 * The fourth row is one minute each.
 * Add it all up and you got the time.
 
-Thats it.
+That's it.
 
 For more details read the article on Wikipedia (http://en.wikipedia.org/wiki/Mengenlehreuhr)
