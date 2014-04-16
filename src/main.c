@@ -20,7 +20,7 @@ void draw_hours_bottom(Layer *layer, GContext *ctx);
 void draw_minutes_top(Layer *layer, GContext *ctx);
 void draw_minutes_bottom(Layer *layer, GContext *ctx);
 void draw_bar(Layer *layer, GContext *ctx, int16_t on, int16_t max); //convenience function
-void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_t leaveblank);
+void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_t leaveblank, bool full);
 Layer *create_and_add_layer(Layer *parent, GRect rect);
 
 void handle_init(void) {
@@ -85,7 +85,7 @@ void draw_seconds(Layer *layer, GContext *ctx) {
 
 void draw_minutes_top(Layer *layer, GContext *ctx) {
   int16_t toprow    = now.tm_min/5;
-  draw_bar_blank(layer, ctx, toprow, 11, 3);
+  draw_bar_blank(layer, ctx, toprow, 11, 3, false);
 }
 
 void draw_minutes_bottom(Layer *layer, GContext *ctx) {
@@ -105,13 +105,15 @@ void draw_hours_bottom(Layer *layer, GContext *ctx) {
 
 void draw_bar(Layer *layer, GContext *ctx, int16_t on, int16_t max) {
   //no blanks please
-  draw_bar_blank(layer, ctx, on, max, 0);
+  draw_bar_blank(layer, ctx, on, max, 0, true);
 }
 
-void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_t leaveblank) {
+void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_t leaveblank, bool full) {
   GRect bounds = layer_get_bounds(layer);
   const int16_t width = bounds.size.w/max;
-  const int16_t hight = bounds.size.h-2;
+  const int16_t fullhight = bounds.size.h-2;
+  const int16_t hight = full ? fullhight : bounds.size.h-8;
+  const int16_t top = (fullhight-hight)+2;
   //delete the layer
   graphics_context_set_fill_color(ctx, GColorWhite);
   graphics_fill_rect(ctx, bounds, 0, GCornerNone);
@@ -119,11 +121,10 @@ void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_
   graphics_context_set_fill_color(ctx, GColorBlack);
   graphics_context_set_stroke_color(ctx, GColorBlack);
   for(int i=0; i<on; i++) {
-    //0, 1, 2, 3, 4, 5, 6, 7
     if (!((i+1)%leaveblank)) {
-      graphics_draw_round_rect(ctx, GRect((width*i)+2,2,width-2,hight), 5);
+      graphics_fill_rect(ctx, GRect((width*i)+2,top,width-2,fullhight), 5, GCornersAll);    
     } else {
-      graphics_fill_rect(ctx, GRect((width*i)+2,2,width-2,hight), 5, GCornersAll);    
+      graphics_fill_rect(ctx, GRect((width*i)+2,top,width-2,hight), 5, GCornersAll);    
     }
   }
 }
