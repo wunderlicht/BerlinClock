@@ -108,12 +108,14 @@ void draw_bar(Layer *layer, GContext *ctx, int16_t on, int16_t max) {
   draw_bar_blank(layer, ctx, on, max, 0, true);
 }
 
+#define PADDING 2
 void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_t leaveblank, bool full) {
   GRect bounds = layer_get_bounds(layer);
   const int16_t width = bounds.size.w/max;
-  const int16_t fullhight = bounds.size.h-2;
-  const int16_t hight = full ? fullhight : bounds.size.h-8;
-  const int16_t top = (fullhight-hight)+2;
+  const int16_t paddedwidth = width-PADDING;
+  const int16_t paddedfullhight = bounds.size.h-PADDING;
+  const int16_t paddedhight = full ? paddedfullhight : bounds.size.h-8;
+  const int16_t paddedtop = PADDING; //(hight-fullhight)+2;
   //delete the layer
   graphics_context_set_fill_color(ctx, GColorWhite);
   graphics_fill_rect(ctx, bounds, 0, GCornerNone);
@@ -122,9 +124,9 @@ void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_
   graphics_context_set_stroke_color(ctx, GColorBlack);
   for(int i=0; i<on; i++) {
     if (!((i+1)%leaveblank)) {
-      graphics_fill_rect(ctx, GRect((width*i)+2,top,width-2,fullhight), 5, GCornersAll);    
+      graphics_fill_rect(ctx, GRect((width*i)+PADDING,paddedtop,paddedwidth,paddedfullhight), 5, GCornersAll);    
     } else {
-      graphics_fill_rect(ctx, GRect((width*i)+2,top,width-2,hight), 5, GCornersAll);    
+      graphics_fill_rect(ctx, GRect((width*i)+PADDING,paddedtop,paddedwidth,paddedhight), 5, GCornersAll);    
     }
   }
 }
