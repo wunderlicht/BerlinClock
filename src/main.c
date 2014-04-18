@@ -28,8 +28,17 @@ void handle_init(void) {
   tick_timer_service_subscribe(SECOND_UNIT, handle_ticks);
 }
 
+#define BLACKONWHITE
+#ifdef BLACKONWHITE
+  #define FOREGROUND GColorBlack
+  #define BACKGROUND GColorWhite
+#else
+  #define FOREGROUND GColorWhite
+  #define BACKGROUND GColorBlack  
+#endif
 void init_window(void) {
   my_window = window_create();
+  window_set_background_color(my_window, BACKGROUND);
   window_stack_push(my_window, true);
   Layer *root_layer = window_get_root_layer(my_window);
   //get geometry
@@ -117,15 +126,16 @@ void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_
   const int16_t paddedhight = full ? paddedfullhight : bounds.size.h-8;
   const int16_t paddedtop = PADDING; //(hight-fullhight)+2;
   //delete the layer
-  graphics_context_set_fill_color(ctx, GColorWhite);
+  graphics_context_set_fill_color(ctx, BACKGROUND);
   graphics_fill_rect(ctx, bounds, 0, GCornerNone);
   //and draw the shit
-  graphics_context_set_fill_color(ctx, GColorBlack);
-  graphics_context_set_stroke_color(ctx, GColorBlack);
+  graphics_context_set_fill_color(ctx, FOREGROUND);
   for(int i=0; i<on; i++) {
     if (!((i+1)%leaveblank)) {
+      //fullhight
       graphics_fill_rect(ctx, GRect((width*i)+PADDING,paddedtop,paddedwidth,paddedfullhight), 5, GCornersAll);    
     } else {
+      //shorthight and full if bool full is true (ok, something is 1:00am and some bbers here... rework!)
       graphics_fill_rect(ctx, GRect((width*i)+PADDING,paddedtop,paddedwidth,paddedhight), 5, GCornersAll);    
     }
   }
