@@ -20,7 +20,7 @@ void draw_hours_bottom(Layer *layer, GContext *ctx);
 void draw_minutes_top(Layer *layer, GContext *ctx);
 void draw_minutes_bottom(Layer *layer, GContext *ctx);
 void draw_bar(Layer *layer, GContext *ctx, int16_t on, int16_t max); //convenience function
-void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_t leaveblank, bool full);
+void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_t fullevery);
 Layer *create_and_add_layer(Layer *parent, GRect rect);
 
 void handle_init(void) {
@@ -94,7 +94,7 @@ void draw_seconds(Layer *layer, GContext *ctx) {
 
 void draw_minutes_top(Layer *layer, GContext *ctx) {
   int16_t toprow    = now.tm_min/5;
-  draw_bar_blank(layer, ctx, toprow, 11, 3, false);
+  draw_bar_blank(layer, ctx, toprow, 11, 3);
 }
 
 void draw_minutes_bottom(Layer *layer, GContext *ctx) {
@@ -114,29 +114,30 @@ void draw_hours_bottom(Layer *layer, GContext *ctx) {
 
 void draw_bar(Layer *layer, GContext *ctx, int16_t on, int16_t max) {
   //no blanks please
-  draw_bar_blank(layer, ctx, on, max, 0, true);
+  draw_bar_blank(layer, ctx, on, max, 1);
 }
 
 #define PADDING 2
-void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_t leaveblank, bool full) {
+#define SHORTBAR 8
+void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_t fullevery) {
   GRect bounds = layer_get_bounds(layer);
+  //calculations outside the loop (conserves computing "power")
   const int16_t width = bounds.size.w/max;
   const int16_t paddedwidth = width-PADDING;
   const int16_t paddedfullhight = bounds.size.h-PADDING;
-  const int16_t paddedhight = full ? paddedfullhight : bounds.size.h-8;
-  const int16_t paddedtop = PADDING; //(hight-fullhight)+2;
+  const int16_t paddedhight = bounds.size.h-SHORTBAR;
   //delete the layer
   graphics_context_set_fill_color(ctx, BACKGROUND);
   graphics_fill_rect(ctx, bounds, 0, GCornerNone);
   //and draw the shit
   graphics_context_set_fill_color(ctx, FOREGROUND);
   for(int i=0; i<on; i++) {
-    if (!((i+1)%leaveblank)) {
+    if (!((i+1)%fullevery)) {
       //fullhight
-      graphics_fill_rect(ctx, GRect((width*i)+PADDING,paddedtop,paddedwidth,paddedfullhight), 5, GCornersAll);    
+      graphics_fill_rect(ctx, GRect((width*i)+PADDING,PADDING,paddedwidth,paddedfullhight), 5, GCornersAll);    
     } else {
-      //shorthight and full if bool full is true (ok, something is 1:00am and some bbers here... rework!)
-      graphics_fill_rect(ctx, GRect((width*i)+PADDING,paddedtop,paddedwidth,paddedhight), 5, GCornersAll);    
+      //short hight
+      graphics_fill_rect(ctx, GRect((width*i)+PADDING,SHORTBAR,paddedwidth,paddedhight), 5, GCornersAll);    
     }
   }
 }
