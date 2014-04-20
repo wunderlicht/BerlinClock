@@ -113,7 +113,7 @@ void draw_hours_bottom(Layer *layer, GContext *ctx) {
 }
 
 void draw_bar(Layer *layer, GContext *ctx, int16_t on, int16_t max) {
-  //no blanks please
+  //full hight every bar
   draw_bar_blank(layer, ctx, on, max, 1);
 }
 
