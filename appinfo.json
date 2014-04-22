@@ -1,25 +1,25 @@
 {
     "versionLabel": "1.0",
-    "uuid": "1726d6dd-ee0c-446d-8a47-717d8c5a4938",
     "appKeys": {},
+    "resources": {
+        "media": [
+            {
+                "type": "png",
+                "file": "images/BerlinClockIconDither.png",
+                "name": "DITHERED_ICON",
+                "menuIcon": true
+            }
+        ]
+    },
     "longName": "BerlinClock",
     "versionCode": 1,
-    "shortName": "BerlinClock",
-    "companyName": "torsten+kickstarter@bergwand.d",
+    "uuid": "1726d6dd-ee0c-446d-8a47-717d8c5a4938",
     "capabilities": [
         ""
     ],
     "watchapp": {
         "watchface": true
     },
-    "resources": {
-        "media": [
-            {
-                "menuIcon": true,
-                "type": "png",
-                "name": "DITHERED_ICON",
-                "file": "images/BerlinClockIconDither.png"
-            }
-        ]
-    }
+    "shortName": "BerlinClock",
+    "companyName": "torsten+kickstarter@bergwand.d"
 }

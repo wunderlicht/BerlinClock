@@ -69,13 +69,18 @@ void handle_deinit(void) {
 }
 
 void handle_ticks(struct tm *tick_time, TimeUnits units_changed) {
-  //I think there is more in the unit_changed parameter. Maybe I don't need to invalidate all layers.
   now = *tick_time;
-  layer_mark_dirty(seconds_layer);
-  layer_mark_dirty(hours_layer_top);
-  layer_mark_dirty(hours_layer_bottom);    
-  layer_mark_dirty(minutes_layer_top);
-  layer_mark_dirty(minutes_layer_bottom);
+  layer_mark_dirty(seconds_layer); //subscribed to seconds, so update them always
+  if (units_changed & MINUTE_UNIT) { //only update if necessary
+    layer_mark_dirty(minutes_layer_top);
+    layer_mark_dirty(minutes_layer_bottom);
+    //APP_LOG(APP_LOG_LEVEL_DEBUG, "minute changed");
+  }
+  if (units_changed & HOUR_UNIT) { //only update if necessary
+    layer_mark_dirty(hours_layer_top);
+    layer_mark_dirty(hours_layer_bottom);
+    //APP_LOG(APP_LOG_LEVEL_DEBUG, "hour changed");
+  }
 }
 
 Layer *create_and_add_layer(Layer *parent, GRect rect) {
