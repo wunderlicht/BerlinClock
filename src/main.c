@@ -70,6 +70,7 @@ void handle_deinit(void) {
 
 void handle_ticks(struct tm *tick_time, TimeUnits units_changed) {
   now = *tick_time;
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, "tick");
   layer_mark_dirty(seconds_layer); //subscribed to seconds, so update them always
   if (units_changed & MINUTE_UNIT) { //only update if necessary
     layer_mark_dirty(minutes_layer_top);
