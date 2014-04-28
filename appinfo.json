@@ -1,30 +1,30 @@
 {
-    "uuid": "1726d6dd-ee0c-446d-8a47-717d8c5a4938",
+    "longName": "BerlinClock",
+    "shortName": "BerlinClock",
+    "capabilities": [
+        ""
+    ],
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    },
+    "companyName": "torsten+kickstarter@bergwand.d",
+    "appKeys": {},
     "resources": {
         "media": [
             {
                 "name": "BERLIN_BEAR",
-                "type": "png",
-                "file": "images/BerlinBear.png"
+                "file": "images/BerlinBear.png",
+                "type": "png"
             },
             {
-                "name": "DITHERED_ICON",
-                "type": "png",
                 "menuIcon": true,
-                "file": "images/BerlinClockIconDither.png"
+                "name": "DITHERED_ICON",
+                "file": "images/BerlinClockIconDither.png",
+                "type": "png"
             }
         ]
     },
-    "capabilities": [
-        ""
-    ],
-    "companyName": "torsten+kickstarter@bergwand.d",
-    "shortName": "BerlinClock",
-    "longName": "BerlinClock",
-    "watchapp": {
-        "watchface": true
-    },
-    "versionCode": 1,
-    "appKeys": {},
-    "versionLabel": "1.0"
+    "uuid": "1726d6dd-ee0c-446d-8a47-717d8c5a4938",
+    "versionCode": 1
 }
