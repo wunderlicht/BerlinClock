@@ -14,4 +14,6 @@ It is quite easy once you've been told.
 
 That's it.
 
+![screenshot][PebbleBerlinClock]
+
 For more details read the article on Wikipedia (http://en.wikipedia.org/wiki/Mengenlehreuhr)
