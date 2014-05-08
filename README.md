@@ -12,8 +12,10 @@ It is quite easy once you've been told.
 * The fourth row is one minute each.
 * Add it all up and you got the time.
 
-That's it.
+That's it. An example?
 
-![screenshot][PebbleBerlinClock]
+![screenshot](screenshots/PebbleBerlinClock.png)
+
+It's 4x5h+3h:3x5min+3min o'clock a.k.a. 23:18 a.k.a. 11:18 pm
 
 For more details read the article on Wikipedia (http://en.wikipedia.org/wiki/Mengenlehreuhr)
