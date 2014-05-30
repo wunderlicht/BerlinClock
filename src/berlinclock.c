@@ -1,13 +1,13 @@
 #include "berlinclock.h"
   
-//static Layer *root_layer;
 static Layer *seconds_layer;
 static Layer *hours_layer_top;
 static Layer *hours_layer_bottom;
 static Layer *minutes_layer_top;
 static Layer *minutes_layer_bottom;
 static struct tm now; //obj-c is so beautiful... this is the only chance to retain time throughout all draws.
-  
+
+//"protected" :-) forward declaration
 static void draw_seconds(Layer *layer, GContext *ctx);
 static void draw_hours_top(Layer *layer, GContext *ctx);
 static void draw_hours_bottom(Layer *layer, GContext *ctx);
@@ -24,11 +24,11 @@ void create_berlin_clock_layer(Window *window) {
   int16_t layer_width = bounds.size.w;
   int16_t layer_hight = bounds.size.h/5; //5 rows, 1 for each sec, 5h, 1h, 5m, 1m
   
-  seconds_layer        = create_and_add_layer(root_layer, GRect(0, layer_hight*0, layer_width, layer_hight)); //0,0,lw,32
-  hours_layer_top      = create_and_add_layer(root_layer, GRect(0, layer_hight*1, layer_width, layer_hight)); //0,33,lw,32
-  hours_layer_bottom   = create_and_add_layer(root_layer, GRect(0, layer_hight*2, layer_width, layer_hight)); //0,66,lw,32
-  minutes_layer_top    = create_and_add_layer(root_layer, GRect(0, layer_hight*3, layer_width, layer_hight)); //0,99,lw,32
-  minutes_layer_bottom = create_and_add_layer(root_layer, GRect(0, layer_hight*4, layer_width, layer_hight)); //0,132,lw,32
+  seconds_layer        = create_and_add_layer(root_layer, GRect(0, layer_hight*0, layer_width, layer_hight));
+  hours_layer_top      = create_and_add_layer(root_layer, GRect(0, layer_hight*1, layer_width, layer_hight));
+  hours_layer_bottom   = create_and_add_layer(root_layer, GRect(0, layer_hight*2, layer_width, layer_hight));
+  minutes_layer_top    = create_and_add_layer(root_layer, GRect(0, layer_hight*3, layer_width, layer_hight));
+  minutes_layer_bottom = create_and_add_layer(root_layer, GRect(0, layer_hight*4, layer_width, layer_hight));
   //add redraw handlers
   layer_set_update_proc(seconds_layer, draw_seconds);
   layer_set_update_proc(hours_layer_top, draw_hours_top);
@@ -47,6 +47,10 @@ void destroy_berlin_clock_layer() {
 
 void handle_ticks(struct tm *tick_time, TimeUnits units_changed) {
   now = *tick_time;
+#ifdef FORCEDTIME
+  now.tm_hour = FORCED_HOURS;
+  now.tm_min = FORCED_MINUTES;
+#endif
   //APP_LOG(APP_LOG_LEVEL_DEBUG, "tick");
   layer_mark_dirty(seconds_layer); //subscribed to seconds, so update them always
   if (units_changed & MINUTE_UNIT) { //only update if necessary
@@ -68,8 +72,11 @@ Layer *create_and_add_layer(Layer *parent, GRect rect) {
 }
 
 void draw_seconds(Layer *layer, GContext *ctx) {
-  int16_t ticktock = now.tm_sec % 2;
-  GColor color = ticktock ? GColorBlack : GColorWhite;
+  int16_t odd = now.tm_sec % 2;
+#ifdef FORCEDTIME
+  odd = 0;
+#endif
+  GColor color = odd ? BACKGROUND : FOREGROUND; //odd numbers are unlit, even numbers are lit
   GRect bounds = layer_get_bounds(layer);
   graphics_context_set_fill_color(ctx, color);
   graphics_fill_circle(ctx, GPoint(bounds.size.w/2, bounds.size.h/2), (bounds.size.h/2)-2);

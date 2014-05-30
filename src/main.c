@@ -24,10 +24,19 @@ void handle_init() {
   app_timer_register(SPLASHDURATION, init_watch, NULL);
 }
 
+/* For later funny use :-) 
+void tap_handler(AccelAxisType axis, int32_t direction) {
+  if (axis==ACCEL_AXIS_X) APP_LOG(APP_LOG_LEVEL_DEBUG, "X");
+  if (axis==ACCEL_AXIS_Y) APP_LOG(APP_LOG_LEVEL_DEBUG, "Y");
+  if (axis==ACCEL_AXIS_Z) APP_LOG(APP_LOG_LEVEL_DEBUG, "Z");  
+}
+*/
+
 void init_window() {
   my_window = window_create();
   window_set_background_color(my_window, BACKGROUND); //BACKGROUND from berlinclock.h
   window_stack_push(my_window, true);
+  //accel_tap_service_subscribe(tap_handler);
 }
 
 void init_watch() {
@@ -37,6 +46,7 @@ void init_watch() {
 }
 
 void handle_deinit() {
+  accel_tap_service_unsubscribe();
   tick_timer_service_unsubscribe();
   destroy_berlin_clock_layer();
   window_destroy(my_window);

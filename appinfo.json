@@ -1,30 +1,30 @@
 {
-    "longName": "BerlinClock",
-    "shortName": "BerlinClock",
+    "appKeys": {},
+    "longName": "Mengenlehreuhr",
     "capabilities": [
         ""
     ],
-    "versionLabel": "1.0",
-    "watchapp": {
-        "watchface": true
-    },
-    "companyName": "torsten+kickstarter@bergwand.d",
-    "appKeys": {},
+    "versionLabel": "1.0.1",
+    "companyName": "Torsten Wunderlich",
     "resources": {
         "media": [
             {
-                "name": "BERLIN_BEAR",
                 "file": "images/BerlinBear.png",
-                "type": "png"
+                "type": "png",
+                "name": "BERLIN_BEAR"
             },
             {
-                "menuIcon": true,
-                "name": "DITHERED_ICON",
                 "file": "images/BerlinClockIconDither.png",
-                "type": "png"
+                "type": "png",
+                "name": "DITHERED_ICON",
+                "menuIcon": true
             }
         ]
     },
+    "watchapp": {
+        "watchface": true
+    },
     "uuid": "1726d6dd-ee0c-446d-8a47-717d8c5a4938",
+    "shortName": "Mengenlehreuhr",
     "versionCode": 1
 }
