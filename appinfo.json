@@ -1,14 +1,11 @@
 {
     "appKeys": {},
-    "versionLabel": "1.0.1",
-    "versionCode": 1,
+    "capabilities": [
+        ""
+    ],
     "companyName": "Torsten Wunderlich",
-    "shortName": "Mengenlehreuhr",
     "longName": "Mengenlehreuhr",
-    "watchapp": {
-        "watchface": true
-    },
-    "uuid": "1726d6dd-ee0c-446d-8a47-717d8c5a4938",
+    "projectType": "native",
     "resources": {
         "media": [
             {
@@ -18,13 +15,22 @@
             },
             {
                 "file": "images/BerlinClockIconDither.png",
+                "menuIcon": true,
                 "name": "DITHERED_ICON",
-                "type": "png",
-                "menuIcon": true
+                "type": "png"
             }
         ]
     },
-    "capabilities": [
-        ""
-    ]
+    "sdkVersion": "3",
+    "shortName": "Mengenlehreuhr",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
+    "uuid": "1726d6dd-ee0c-446d-8a47-717d8c5a4938",
+    "versionCode": 1,
+    "versionLabel": "1.1",
+    "watchapp": {
+        "watchface": true
+    }
 }

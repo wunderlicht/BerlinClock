@@ -17,14 +17,26 @@
 **********************************************************************/
 
 #include <pebble.h>
-
-#define BLACKONWHITE
-#ifdef BLACKONWHITE
-  #define FOREGROUND GColorBlack
-  #define BACKGROUND GColorWhite
-#else
-  #define FOREGROUND GColorWhite
-  #define BACKGROUND GColorBlack  
+#ifdef PBL_BW
+  #define BLACKONWHITE
+  #ifdef BLACKONWHITE
+    #define FOREGROUND GColorBlack
+    #define BACKGROUND GColorWhite
+  #else
+    #define FOREGROUND GColorWhite
+    #define BACKGROUND GColorBlack  
+  #endif
+  #define SECONDSFILL FOREGROUND
+  #define MINUTESFILL FOREGROUND
+  #define HOURSFILL FOREGROUND
+#endif
+  
+#ifdef PBL_COLOR  
+  #define BACKGROUND GColorLightGray
+  #define SECONDSFILL GColorYellow
+  #define HOURSFILL GColorRed
+  #define MINUTESFILL GColorYellow
+  #define QUARTERFILL GColorRed
 #endif
 
 #define PADDING 2

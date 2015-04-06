@@ -31,8 +31,10 @@ static void draw_hours_top(Layer *layer, GContext *ctx);
 static void draw_hours_bottom(Layer *layer, GContext *ctx);
 static void draw_minutes_top(Layer *layer, GContext *ctx);
 static void draw_minutes_bottom(Layer *layer, GContext *ctx);
-static void draw_bar(Layer *layer, GContext *ctx, int16_t on, int16_t max); //convenience function
-static void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_t fullevery);
+//static void draw_bar(Layer *layer, GContext *ctx, int16_t on, int16_t max); //convenience function
+static void draw_bar(Layer *layer, GContext *ctx, int16_t on, int16_t max, GColor fill); //convenience function
+//static void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_t fullevery);
+static void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, GColor fill, int16_t fullevery);
 static Layer *create_and_add_layer(Layer *parent, GRect rect);
 
 void create_berlin_clock_layer(Window *window) {    
@@ -94,7 +96,7 @@ void draw_seconds(Layer *layer, GContext *ctx) {
 #ifdef FORCEDTIME
   odd = 0;
 #endif
-  GColor color = odd ? BACKGROUND : FOREGROUND; //odd numbers are unlit, even numbers are lit
+  GColor color = odd ? BACKGROUND : SECONDSFILL; //odd numbers are unlit, even numbers are lit
   GRect bounds = layer_get_bounds(layer);
   graphics_context_set_fill_color(ctx, color);
   graphics_fill_circle(ctx, GPoint(bounds.size.w/2, bounds.size.h/2), (bounds.size.h/2)-2);
@@ -102,30 +104,30 @@ void draw_seconds(Layer *layer, GContext *ctx) {
 
 void draw_minutes_top(Layer *layer, GContext *ctx) {
   int16_t toprow    = now.tm_min/5;
-  draw_bar_blank(layer, ctx, toprow, 11, 3);
+  draw_bar_blank(layer, ctx, toprow, 11, MINUTESFILL, 3);
 }
 
 void draw_minutes_bottom(Layer *layer, GContext *ctx) {
   int16_t bottomrow = now.tm_min%5;
-  draw_bar(layer, ctx, bottomrow, 4);
+  draw_bar(layer, ctx, bottomrow, 4, MINUTESFILL);
 }
 
 void draw_hours_top(Layer *layer, GContext *ctx) {
   int16_t toprow    = now.tm_hour/5;
-  draw_bar(layer, ctx, toprow, 4);
+  draw_bar(layer, ctx, toprow, 4, HOURSFILL);
 }
 
 void draw_hours_bottom(Layer *layer, GContext *ctx) {
   int16_t bottomrow = now.tm_hour%5;
-  draw_bar(layer, ctx, bottomrow, 4);
+  draw_bar(layer, ctx, bottomrow, 4, HOURSFILL);
 }
 
-void draw_bar(Layer *layer, GContext *ctx, int16_t on, int16_t max) {
+void draw_bar(Layer *layer, GContext *ctx, int16_t on, int16_t max, GColor fill) {
   //full hight every bar
-  draw_bar_blank(layer, ctx, on, max, 1);
+  draw_bar_blank(layer, ctx, on, max, fill, 1);
 }
 
-void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_t fullevery) {
+void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, GColor fill, int16_t fullevery) {
   GRect bounds = layer_get_bounds(layer);
   //calculations outside the loop (conserves computing "power")
   const int16_t width = bounds.size.w/max;
@@ -136,7 +138,7 @@ void draw_bar_blank(Layer *layer, GContext *ctx, int16_t on, int16_t max, int16_
   graphics_context_set_fill_color(ctx, BACKGROUND);
   graphics_fill_rect(ctx, bounds, 0, GCornerNone);
   //and draw the shit
-  graphics_context_set_fill_color(ctx, FOREGROUND);
+  graphics_context_set_fill_color(ctx, fill);
   for(int i=0; i<on; i++) {
     if (!((i+1)%fullevery)) {
       //fullhight
