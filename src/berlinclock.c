@@ -1,6 +1,6 @@
 /*********************************************************************
   Berlin Mengenlehreuhr Watchface for Pebble
-  Copyright (C) 2014 Torsten Wunderlich
+  Copyright (C) 2014,2015 Torsten Wunderlich
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -55,6 +55,11 @@ void create_berlin_clock_layer(Window *window) {
   layer_set_update_proc(hours_layer_bottom, draw_hours_bottom);
   layer_set_update_proc(minutes_layer_top, draw_minutes_top);
   layer_set_update_proc(minutes_layer_bottom, draw_minutes_bottom);
+  //mark all the payers dirty, so they initially draw imediatly
+  layer_mark_dirty(minutes_layer_top);
+  layer_mark_dirty(minutes_layer_bottom);
+  layer_mark_dirty(hours_layer_top);
+  layer_mark_dirty(hours_layer_bottom);  
 }
 
 void destroy_berlin_clock_layer() {

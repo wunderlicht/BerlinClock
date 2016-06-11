@@ -1,6 +1,6 @@
 /*********************************************************************
   Berlin Mengenlehreuhr Watchface for Pebble
-  Copyright (C) 2014 Torsten Wunderlich
+  Copyright (C) 2014,2015 Torsten Wunderlich
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -17,10 +17,8 @@
 **********************************************************************/
 
 #include <pebble.h>
-#include "splash.h"
 #include "berlinclock.h"
 
-#define SPLASHDURATION 2000
   
 Window *my_window;
 
@@ -38,8 +36,7 @@ int main(void) {
 
 void handle_init() {
   init_window();
-  display_splash_layer(my_window);
-  app_timer_register(SPLASHDURATION, init_watch, NULL);
+  init_watch();
 }
 
 /* For later funny use :-) 
@@ -58,13 +55,12 @@ void init_window() {
 }
 
 void init_watch() {
-  destroy_splash_layer();
   create_berlin_clock_layer(my_window);
   tick_timer_service_subscribe(SECOND_UNIT, handle_ticks);
 }
 
 void handle_deinit() {
-  accel_tap_service_unsubscribe();
+  //accel_tap_service_unsubscribe();
   tick_timer_service_unsubscribe();
   destroy_berlin_clock_layer();
   window_destroy(my_window);

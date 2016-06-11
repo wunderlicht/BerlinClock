@@ -1,0 +1,35 @@
+{
+    "author": "Torsten Wunderlich",
+    "dependencies": {},
+    "keywords": [],
+    "name": "mengenlehreuhr",
+    "pebble": {
+        "capabilities": [
+            ""
+        ],
+        "displayName": "Mengenlehreuhr",
+        "enableMultiJS": false,
+        "messageKeys": [],
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/BerlinClockIconDither.png",
+                    "menuIcon": true,
+                    "name": "DITHERED_ICON",
+                    "type": "bitmap"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt"
+        ],
+        "uuid": "1726d6dd-ee0c-446d-8a47-717d8c5a4938",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "1.3.0"
+}

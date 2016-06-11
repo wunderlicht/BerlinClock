@@ -1,6 +1,6 @@
 /*********************************************************************
   Berlin Mengenlehreuhr Watchface for Pebble
-  Copyright (C) 2014 Torsten Wunderlich
+  Copyright (C) 2014,2015 Torsten Wunderlich
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 #endif
   
 #ifdef PBL_COLOR  
-  #define BACKGROUND GColorLightGray
+  #define BACKGROUND GColorBlack
   #define SECONDSFILL GColorYellow
   #define HOURSFILL GColorRed
   #define MINUTESFILL GColorYellow
